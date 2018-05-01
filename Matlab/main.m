@@ -1,10 +1,16 @@
 %%main
 clear;
 clc;
+addpath('CoeffArchive');
 
+%Adjust per run , also adjust stop conditions
+readFrom = 'CoeffArchive\netCoeffsEvolve_Apr29.dat';
+writeTo = 'CoeffArchive\netCoeffsEvolve_May1.dat';
 numGens = 2;
-nets = csvread('netCoeffsInitial.dat');
-%nets = csvread('netCoeffsEvolve.dat');
+
+
+nets = csvread(readFrom);
+
 
 [environment,envLength] = genEnvironment2();
 [carWidth, carLength, stepSize] = constants();
@@ -27,7 +33,7 @@ for f = 1:numGens
         while x < envLength
             
             [x,y,theta,X,Y] = updatePos(M,S,stepSize,theta,x,y,carWidth,carLength);
-            if checkCrash(environment,X,Y) || (count > 1200 && x < 200) || x > 2300 || count == 20000
+            if checkCrash(environment,X,Y) || (count > 1200 && x < 200) || x > 2400 || count == 12000% stop conditions
                 break;
             end
             
@@ -41,7 +47,7 @@ for f = 1:numGens
         nets(64,r)=x;
     end
 end
-csvwrite('netCoeffsEvolve.dat',nets);
+csvwrite(writeTo,nets);
 %% watch
 maxIndex = 1;
 for o = 1:batchSize
