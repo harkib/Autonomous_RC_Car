@@ -1,0 +1,1 @@
+netCreate.cpp should create a function, 'network.h', which is a function that holds and simulates the net.
