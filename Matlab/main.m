@@ -4,9 +4,9 @@ clc;
 addpath('CoeffArchive');
 
 %Adjust per run , also adjust stop conditions
-readFrom = 'CoeffArchive\netCoeffsEvolve_Apr29.dat';
-writeTo = 'CoeffArchive\netCoeffsEvolve_May1.dat';
-numGens = 2;
+readFrom = 'CoeffArchive\netCoeffsEvolve_May3(2).dat';
+writeTo = 'CoeffArchive\netCoeffsEvolve_May3(3).dat';
+numGens = 5;
 
 
 nets = csvread(readFrom);
@@ -33,7 +33,7 @@ for f = 1:numGens
         while x < envLength
             
             [x,y,theta,X,Y] = updatePos(M,S,stepSize,theta,x,y,carWidth,carLength);
-            if checkCrash(environment,X,Y) || (count > 1200 && x < 200) || x > 2400 || count == 12000% stop conditions
+            if checkCrash(environment,X,Y) || x > 2450 || count == 700% stop conditions
                 break;
             end
             
@@ -57,7 +57,7 @@ for o = 1:batchSize
 end
 net = loadNet(nets,maxIndex);
 
-x = 800;
+x = 50;
 y = 200;
 theta = 0;
 M = 1;
@@ -73,7 +73,7 @@ while x < envLength
         drawCar(X,Y);
         pause(0.005);
     end
-    if checkCrash(environment,X,Y) || count == 100000
+    if checkCrash(environment,X,Y) || count == 100000 || x > 2450
         break;
     end
     
@@ -84,5 +84,5 @@ while x < envLength
     S = output(2);
     
     
-    count = count + 1;
+    count = count + 1
 end
