@@ -1,7 +1,6 @@
 function [netsNew] = evolve(nets)
 n = length(nets(:,1));
-m = length(nets(:,1));
-nets = -(sortrows((-nets)',m))';
+nets = -(sortrows((-nets)',n))';
 topP = (length(nets(1,:)))^.5;
 netsNew = zeros(n,length(nets(1,:)));
 for i = 1:topP
