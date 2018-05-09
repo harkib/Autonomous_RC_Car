@@ -6,7 +6,7 @@ addpath('CoeffArchive');
 %Adjust per run , also adjust stop conditions and score coditions
 readFrom = 'CoeffArchive\netCoeffsEvolve_May6.dat';
 writeTo = 'CoeffArchive\netCoeffsEvolve_May6.dat';
-numGens = 1;
+numGens = 5;
 
 
 nets = csvread(readFrom);
@@ -33,7 +33,7 @@ for f = 1:numGens
         while x < envLength
             
             [x,y,theta,X,Y] = updatePos(M,S,stepSize,theta,x,y,carWidth,carLength);
-            if checkCrash(environment,X,Y) || x > 2450 || count == 500% stop conditions
+            if checkCrash(environment,X,Y) || x > 2450 || count == 1000% stop conditions
                 break;
             end
             
@@ -44,7 +44,7 @@ for f = 1:numGens
             S = output(2);
             count = count + 1;
         end
-        if x > 2449 %score codition
+        if x > 2400 %score codition
             nets(64,r)= -count;
         else
             nets(64,r) = -1001; %score codition

@@ -10,7 +10,7 @@ for i = 1:topP
         set3 = mate(set1,set2);
         for k=1:length(set3)
             if i == j && i > topP/2 && 0 %should not enter
-                disp(['shoulf not enter']);
+                
                 netsNew(k,(i-1)*topP + j) = rand - rand;
             else
                 netsNew(k,(i-1)*topP + j) = set3(k);

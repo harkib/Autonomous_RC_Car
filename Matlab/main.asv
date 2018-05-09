@@ -4,9 +4,9 @@ clc;
 addpath('CoeffArchive');
 
 %Adjust per run , also adjust stop conditions and score coditions
-readFrom = 'CoeffArchive\netCoeffsEvolve_May4.dat';
-writeTo = 'CoeffArchive\netCoeffsEvolve_May4.dat';
-numGens = 2;
+readFrom = 'CoeffArchive\netCoeffsEvolve_May6.dat';
+writeTo = 'CoeffArchive\netCoeffsEvolve_May6.dat';
+numGens = 5;
 
 
 nets = csvread(readFrom);
@@ -44,7 +44,7 @@ for f = 1:numGens
             S = output(2);
             count = count + 1;
         end
-        if x > 2449 %score codition
+        if x > 2450 %score codition
             nets(64,r)= -count;
         else
             nets(64,r) = -1001; %score codition
@@ -54,7 +54,8 @@ end
 csvwrite(writeTo,nets);
 
 %% watch
-clc
+clc;
+
 maxIndex = 1;
 for o = 1:batchSize
     if nets(64,o) > nets(64,maxIndex)
@@ -67,7 +68,7 @@ net = loadNet(nets,maxIndex);
 x = 50;
 y = 200;
 theta = 0;
-M = 1;
+M = 0;
 S = 0;
 count = 0;
 while x < envLength
