@@ -4,15 +4,14 @@ clc;
 addpath('CoeffArchive');
 
 %Adjust per run , also adjust stop conditions and score coditions
-readFrom = 'CoeffArchive\netCoeffsEvolve_May6.dat';
-writeTo = 'CoeffArchive\netCoeffsEvolve_May6.dat';
-numGens = 5;
-
+readFrom = 'CoeffArchive\netCoeffsEvolve_May5.dat';
+writeTo = 'CoeffArchive\netCoeffsEvolve_May7.dat';
+numGens = 1;
 
 nets = csvread(readFrom);
 
 
-[environment,envLength] = genEnvironment2();
+[environment,envLength] = genEnvironment3();
 [carWidth, carLength, stepSize] = constants();
 
 for f = 1:numGens
@@ -66,7 +65,7 @@ maxIndex
 net = loadNet(nets,maxIndex);
 
 x = 50;
-y = 200;
+y = 2400;
 theta = 0;
 M = 0;
 S = 0;
