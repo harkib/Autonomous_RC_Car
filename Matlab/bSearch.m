@@ -19,15 +19,12 @@ finish = 0;
 while first < last && finish ~= 1
     mid = floor((first+last)/2);
     if (matrix(1,mid) > x - tolerance) && (matrix(1,mid) < x + tolerance)
-        %dsf = 'numOne'
         xUp = x;
         xL = x;
         xUpIndex = mid;
         xLIndex = mid;
         while (xUp < (x + tolerance)) && (xUp > (x - tolerance))
-            %sdfdf = 'inOne'
             if matrix(2,xUpIndex) < (y + tolerance) && matrix(2,xUpIndex) > (y - tolerance)
-               %fdga = 'ininOne'
                 found = 1;
                 finish = 1;
             end
@@ -44,9 +41,9 @@ while first < last && finish ~= 1
         end
         finish = 1;
     elseif x > matrix(1,mid)
-        first = mid;
+        first = mid+1;
     elseif x  <  matrix(1,mid)
-        last = mid;
+        last = mid-1;
     end
 end
 end
