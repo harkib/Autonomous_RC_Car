@@ -4,9 +4,9 @@ clc;
 addpath('CoeffArchive');
 
 %Adjust per run , also adjust stop conditions and score coditions
-readFrom = 'CoeffArchive\netCoeffsEvolve_May5.dat';
-writeTo = 'CoeffArchive\netCoeffsEvolve_May7.dat';
-numGens = 1;
+readFrom = 'CoeffArchive\netCoeffsEvolve_May10(2).dat';
+writeTo = 'CoeffArchive\netCoeffsEvolve_May11.dat';
+numGens = 30;
 
 nets = csvread(readFrom);
 
@@ -25,14 +25,14 @@ for f = 1:numGens
         
         theta = 0;
         x = 50;
-        y = 200;
+        y = 2400;
         M = 0;
         S = 0;
         count = 0;
         while x < envLength
             
             [x,y,theta,X,Y] = updatePos(M,S,stepSize,theta,x,y,carWidth,carLength);
-            if checkCrash(environment,X,Y) || x > 2450 || count == 1000% stop conditions
+            if checkCrash(environment,X,Y) || (x > 2450 && y < 400) || count == 10000% stop conditions
                 break;
             end
             
@@ -43,11 +43,7 @@ for f = 1:numGens
             S = output(2);
             count = count + 1;
         end
-        if x > 2400 %score codition
-            nets(64,r)= -count;
-        else
-            nets(64,r) = -1001; %score codition
-        end
+            nets(64,r)= score3(x,y);
     end
 end
 csvwrite(writeTo,nets);
@@ -61,7 +57,7 @@ for o = 1:batchSize
         maxIndex = o;
     end
 end
-maxIndex
+maxIndex = 6;
 net = loadNet(nets,maxIndex);
 
 x = 50;
@@ -73,14 +69,14 @@ count = 0;
 while x < envLength
     
     [x,y,theta,X,Y] = updatePos(M,S,stepSize,theta,x,y,carWidth,carLength);
-    if mod(count,1) == 0
+    if mod(count,2) == 0
         scatter(environment(1,:),environment(2,:),'.');
         daspect([1 1 1])
         hold on;
         drawCar(X,Y);
         pause(0.005);
     end
-    if checkCrash(environment,X,Y) || count == 100000 || x > 2450
+    if checkCrash(environment,X,Y) || count == 100000
         break;
     end
     

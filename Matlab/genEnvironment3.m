@@ -29,13 +29,13 @@ width = 2500;
             y = 0;
         end
     end
-    function [y] = f5(x)
-        if 2300 < x && x < 2400
-            y = 1450;
-        else
-            y = 0;
-        end
-    end
+%     function [y] = f5(x)
+%         if 2300 < x && x < 2400
+%             y = 1450;
+%         else
+%             y = 0;
+%         end
+%     end
     function [y] = f6(x)
         if 2350 < x
             y = 2300;
@@ -149,9 +149,9 @@ for x = 1:stepSize:width
     environment(1,index) = x;
     environment(2,index) = f4(x);
     index = index + 1;
-    environment(1,index) = x;
-    environment(2,index) = f5(x);
-    index = index + 1;
+%     environment(1,index) = x;
+%     environment(2,index) = f5(x);
+%     index = index + 1;
     environment(1,index) = x;
     environment(2,index) = f6(x);
     index = index + 1;
