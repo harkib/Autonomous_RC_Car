@@ -11,9 +11,6 @@ function [found] = bSearch(matrix,x,y,tolerance)
 %     disp(['not sorted']);
 %     found = 1;
 % end 
-
-
-
 found = 0;
 first = 1;
 last = length(matrix(1,:));

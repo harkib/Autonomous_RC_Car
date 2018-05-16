@@ -5,13 +5,14 @@ addpath('CoeffArchive');
 
 %Adjust per run , also adjust stop conditions and score coditions
 readFrom = 'CoeffArchive\netCoeffsEvolve_May11.dat';
-writeTo = 'CoeffArchive\netCoeffsEvolve_May12.dat';
-numGens = 30;
-
-nets = csvread(readFrom);
+writeTo = 'CoeffArchive\netCoeffsEvolve_May15.dat';
+numGens = 1;
 
 
-[environment,envLength] = genEnvironment3();
+nets = csvread(readFrom); 
+
+
+[environment,envLength] = genEnvironment2();
 [carWidth, carLength, stepSize] = constants();
 
 for f = 1:numGens
@@ -25,14 +26,14 @@ for f = 1:numGens
         
         theta = 0;
         x = 50;
-        y = 2400;
+        y = 200;
         M = 0;
         S = 0;
         count = 0;
         while x < envLength
             
             [x,y,theta,X,Y] = updatePos(M,S,stepSize,theta,x,y,carWidth,carLength);
-            if checkCrash(environment,X,Y) || (x > 2450 && y < 400) || count == 10000% stop conditions
+            if checkCrash(environment,X,Y) || x > 2450 || count == 1000% stop conditions
                 break;
             end
             
@@ -43,7 +44,11 @@ for f = 1:numGens
             S = output(2);
             count = count + 1;
         end
-            nets(64,r)= score3(x,y);
+        if x > 2450
+            nets(64,r) = -count;
+        else 
+            nets(64,r) = -1001;
+        end 
     end
 end
 csvwrite(writeTo,nets);
@@ -61,7 +66,7 @@ maxIndex = 6;
 net = loadNet(nets,maxIndex);
 
 x = 50;
-y = 2400;
+y = 200;
 theta = 0;
 M = 0;
 S = 0;
@@ -76,7 +81,7 @@ while x < envLength
         drawCar(X,Y);
         pause(0.005);
     end
-    if checkCrash(environment,X,Y) || count == 100000
+    if checkCrash(environment,X,Y) || count == 1000
         break;
     end
     
