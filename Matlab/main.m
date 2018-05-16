@@ -81,7 +81,7 @@ while x < envLength
         drawCar(X,Y);
         pause(0.005);
     end
-    if checkCrash(environment,X,Y) || count == 100000
+    if checkCrash(environment,X,Y) || count == 1000
         break;
     end
     
