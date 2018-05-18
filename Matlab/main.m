@@ -4,8 +4,8 @@ clc;
 addpath('CoeffArchive');
 
 %Adjust per run , also adjust stop conditions and score coditions
-readFrom = 'CoeffArchive\netCoeffsEvolve_May15.dat';
-writeTo = 'CoeffArchive\netCoeffsEvolve_May17.dat';
+readFrom = 'CoeffArchive\netCoeffsEvolve_May17.dat';
+writeTo = 'CoeffArchive\netCoeffsEvolve_May17(2).dat';
 numGens = 100;
 
 
