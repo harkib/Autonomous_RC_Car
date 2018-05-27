@@ -1,0 +1,23 @@
+%% exportCoeff, creates a csv with one set of coefficents to be use by the car
+clear;
+clc;
+addpath('CoeffArchive');
+
+%Adjust per run
+readFrom = 'CoeffArchive\netCoeffsEvolve_May17.dat';
+writeTo = 'CoeffArchive\netCoeffsEvolve_May17_export.csv';
+
+nets = csvread(readFrom);
+
+batchSize = length(nets(1,:));
+coeffSize = length(nets(:,1));
+maxIndex = 1;
+for o = 1:batchSize
+    if nets(64,o) > nets(64,maxIndex)
+        maxIndex = o;
+    end
+end
+
+netOut = nets(1:batchSize -1,maxIndex);
+csvwrite(writeTo,netOut);
+

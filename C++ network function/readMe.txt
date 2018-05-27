@@ -1,1 +1,1 @@
-'network.h' should be included in the aurdino code. 
+'network.h' should be included in the aurdino code. Coefficients should be saved in 'coeff.csv'
