@@ -6,7 +6,7 @@ addpath('CoeffArchive');
 %Adjust per run , also adjust stop conditions and score coditions
 readFrom = 'CoeffArchive\netCoeffsEvolve_May17.dat';
 writeTo = 'CoeffArchive\netCoeffsEvolve_May17(2).dat';
-numGens = 100;
+numGens = 1;
 
 
 nets = csvread(readFrom); 
