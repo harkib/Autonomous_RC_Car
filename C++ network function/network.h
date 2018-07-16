@@ -2,8 +2,12 @@
 #pragma once
 #include <math.h>  
 #include <fstream>
+#include <iostream>
+#include <string>
+using namespace std;
 
 double transig(double x) {
+	double y;
 	y = 2 / (1 + exp(-2 * x)) - 1;
 	return y;
 }
@@ -11,21 +15,21 @@ double transig(double x) {
 //Simulate function updates arrOut, Motor speed as arr(0) and steering angle as arr(1). Coeff should be length 63
 //arrIn should be length 7; s1 to s5 and M0 and S0
 void sim(double arrIn[], double coeff[], double arrOut[]) {
-	int numInptuts = 7;
+	int numInputs = 7;
 	int numOutputs = 2;
 	int numHidden = 7;
 	double arrHidden[numHidden];
 
 	for (int i = 0; i < numHidden; i++) {
 		for (int j = 0; j < numInputs; j++) {
-			arrHidden[i] = arrHidden[i] + arrIn[j] * coeff[numImputs*i + j];
+			arrHidden[i] = arrHidden[i] + arrIn[j] * coeff[numInputs*i + j];
 		}
 		arrHidden[i] = transig(arrHidden[i]);
 	}
 
 	for (int i = 0; i < numOutputs; i++) {
 		for (int j = 0; j < numHidden; j++) {
-			arrOut[i] = arrOut[i] + arrHidden[j]*coeff[(numInptuts-1)*(numHidden-1) + numHidden*i + j];
+			arrOut[i] = arrOut[i] + arrHidden[j]*coeff[(numInputs-1)*(numHidden-1) + numHidden*i + j];
 		}
 	}
 }
@@ -34,9 +38,10 @@ void sim(double arrIn[], double coeff[], double arrOut[]) {
 void loadCoeff(double coeff[]) {
 	int val;
 	int count = 0;
-	ifstream coeffFile("coeff.csv");
-	if (coeffFile.open()) {
-		while (getline(coeffFile, val, ',')) {
+	ifstream coeffFile;
+	coeffFile.open("coeff.csv");
+	if (!coeffFile.fail()) {
+		while (getline(coeffFile, val)) {
 			coeff(count) = val;
 			count++;
 		}

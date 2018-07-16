@@ -1,6 +1,7 @@
 //test.cpp to test network functions
 # include "network.h"
 # include <iostream>
+using namespace std;
 
 
 int main() {
