@@ -34,17 +34,20 @@ void sim(double arrIn[], double coeff[], double arrOut[]) {
 	}
 }
 
-//file should be named "coeff.csv"
-void loadCoeff(double coeff[]) {
-	int val;
+//file should be as csv 
+void loadCoeff(double coeff[], string fileName) {
+	double val;
 	int count = 0;
 	ifstream coeffFile;
-	coeffFile.open("coeff.csv");
+	coeffFile.open(fileName);
 	if (!coeffFile.fail()) {
-		while (getline(coeffFile, val)) {
-			coeff(count) = val;
+		while (!coeffFile.eof()) {
+			coeffFile >> val;
+			coeff[count] = val;
+			cout << coeff[count] << endl;
 			count++;
 		}
+
 		coeffFile.close();
 	}
 	else cout << "file not read" << endl;
