@@ -6,9 +6,17 @@
 #include <string>
 using namespace std;
 
-double transig(double x) {
+// Sensor 1 -> looking striaght -> arrIn[0] 
+// Sensor 2 -> left front
+// Sensor 3 -> right front
+// Sensor 4 -> left side
+// Sensor 5 -> right side -> arrIn[4]
+// Current speed -> arrIn[5]
+// Current steering angle -> arrIn[6]
+
+double tansig(double x) {
 	double y;
-	y = 2 / (1 + exp(-2 * x)) - 1;
+	y = (2 / (1 + exp(-2 * x))) - 1;
 	return y;
 }
 
@@ -19,22 +27,35 @@ void sim(double arrIn[], double coeff[], double arrOut[]) {
 	int numOutputs = 2;
 	int numHidden = 7;
 	double arrHidden[numHidden];
+	
 
 	for (int i = 0; i < numHidden; i++) {
+		arrHidden[i]=0;
 		for (int j = 0; j < numInputs; j++) {
-			arrHidden[i] = arrHidden[i] + arrIn[j] * coeff[numInputs*i + j];
+			arrHidden[i] = arrHidden[i] + arrIn[j] * coeff[numInputs*j + i];
+		//cout << "using coeff " << numInputs*j + i <<  endl;
 		}
-		arrHidden[i] = transig(arrHidden[i]);
+		arrHidden[i] = tansig(arrHidden[i]);
 	}
 
 	for (int i = 0; i < numOutputs; i++) {
+		arrOut[i]=0;
 		for (int j = 0; j < numHidden; j++) {
-			arrOut[i] = arrOut[i] + arrHidden[j]*coeff[(numInputs-1)*(numHidden-1) + numHidden*i + j];
+			arrOut[i] = arrOut[i] + arrHidden[j]*coeff[(numInputs)*(numHidden) + i + 2*j];
+		//cout << "using coeff " << (numInputs)*(numHidden) + i + 2*j <<  endl;
 		}
 	}
 }
 
-//file should be as csv 
+/*void simDumb(double arrIn[], double coeff[], double arrOut[]) {
+	if arrIn[0] > 50{
+		arrOut[0] = 10;
+		arrOut[1] = arrIn[6]; 
+	}else if 
+}*/
+
+
+//file should be a csv 
 void loadCoeff(double coeff[], string fileName) {
 	double val;
 	int count = 0;
@@ -44,10 +65,9 @@ void loadCoeff(double coeff[], string fileName) {
 		while (!coeffFile.eof()) {
 			coeffFile >> val;
 			coeff[count] = val;
-			cout << coeff[count] << endl;
+			//cout << coeff[count] << endl;
 			count++;
 		}
-
 		coeffFile.close();
 	}
 	else cout << "file not read" << endl;
