@@ -1,5 +1,5 @@
 function [net] = loadNet(nets,index)
-biasConnect = [0;0];
+        biasConnect = [0;0];
         inputConnect = [1 1 1 1 1 1 1;0 0 0 0 0 0 0];
         layerConnect = [0 0; 1 0];
         outputConnect = [0 1];

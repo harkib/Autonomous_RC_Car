@@ -9,6 +9,12 @@ Servo myservo;
 int pos = 140; //140 is roughly straight for the steering
 float currentB = 0; //Sense drive motor current draw
 
+  //Sensor Set Up
+  long duration;
+  int distance;
+  const int trigPin = 3;
+  const int echoPin = 2;
+  
 void setup() {
   
   //Setup Channel A
@@ -19,6 +25,9 @@ void setup() {
   //Setup Steering
   myservo.attach(10);  // attaches the servo on pin 10 to the servo object
 
+  //Sensor Set Up
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
 }
 
 
@@ -26,15 +35,32 @@ void loop(){
 
   //Steer straight
   myservo.write(pos); 
-  
-  
-  //forward @ full speed
-  digitalWrite(13, HIGH); //Establishes forward direction of Channel A
-  digitalWrite(8, LOW);   //Disengage the Brake for Channel A
-  analogWrite(11, 222);  //max is 255 -  implies 9 Volts -- need 12V at least supply to motor
-  currentB = analogRead(A1);//current sense motor A
-  Serial.print(currentB); //max is 2 Amps
-  Serial.print("milliamps\n");
+
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  duration = pulseIn(echoPin, HIGH);
+  distance= duration*0.034/2;
+  Serial.print("Distance: ");
+  Serial.println(distance);
+
+
+ 
+//  forward @ full speed
+//  digitalWrite(13, HIGH); //Establishes forward direction of Channel A
+//  digitalWrite(8, LOW);   //Disengage the Brake for Channel A
+//  analogWrite(11, 222);  //max is 255 -  implies 9 Volts -- need 12V at least supply to motor
+//  currentB = analogRead(A1);//current sense motor A
+//  Serial.print(currentB); //max is 2 Amps
+//  Serial.print("milliamps\n");
+
+
+
+
+
+
+
+
   
 //  
 //  delay(3000);
