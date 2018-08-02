@@ -17,6 +17,11 @@ double arrIn[7];
 double arrOut[2];
 double coeff[64] = {0.010058,0.021507,-0.64508,0.5071,0.0482,0.027718,-0.33932,-0.88842,0.091274,-0.14505,-0.14499,0.28647,0.075744,0.15063,0.66329,0.050569,0.096072,0.45521,0.004986,0.21156,0.020915,-0.10862,0.16578,0.067902,-0.12386,0.71624,0.011182,-1.6959,0.1411,-0.13506,-0.028443,-0.153,0.10195,-0.016707,-0.13686,0.15883,0.12873,0.3206,-0.010895,-0.28423,-0.068332,0.11177,0.03218,0.10542,-0.26854,0.19184,-0.015392,0.1184,0.65344,0.021146,-18.542,38.112,-0.058833,0.14627,0.30615,2.6266,0.15227,0.10383,-0.072868,-0.0048141,-0.014333,-16.707,-0.2758};
 
+//Controlling Global Variables
+double currentSpeed = 0;
+double currentSteering = pos;
+
+
 ///////Sensor Set Up///////
 // Sensor 1 -> looking striaght -> arrIn[0] 
 // Sensor 2 -> left front
@@ -67,6 +72,12 @@ void loop(){
   myservo.write(pos); 
 
 getSensorData(arrIn);
+//arrIn[5] = currentSpeed;
+//arrIn[6] = currentSteering;
+sim(arrIn,coeff,arrOut);
+Serial.println(arrOut[0]);
+Serial.println(arrOut[1]);
+
 
 //  forward @ full speed
 //  digitalWrite(13, HIGH); //Establishes forward direction of Channel A
