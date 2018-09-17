@@ -68,15 +68,35 @@ void setup() {
 
 void loop(){
 
-  //Steer straight
-  myservo.write(pos); 
+
 
 getSensorData(arrIn);
-//arrIn[5] = currentSpeed;
-//arrIn[6] = currentSteering;
+arrIn[5] = currentSpeed;
+arrIn[6] = currentSteering;
 sim(arrIn,coeff,arrOut);
+
+Serial.print("Speed_0: ");
 Serial.println(arrOut[0]);
-Serial.println(arrOut[1]);
+//Serial.println(arrOut[1]);
+
+currentSpeed = motorSimCOnversion(arrOut[0]);
+currentSteering = steeringSimConversion(arrOut[1]);
+
+Serial.print("Speed: ");
+Serial.println(currentSpeed);
+
+myservo.write(currentSteering); 
+if (currentSpeed > 0){
+  digitalWrite(13, LOW); //Establishes forward direction of Channel A
+  digitalWrite(8, LOW);   //Disengage the Brake for Channel A
+  analogWrite(11, currentSpeed);  //max is 255 -  implies 9 Volts -- need 12V at least supply to motor
+} else {
+  digitalWrite(13, HIGH); //Establishes backward direction of Channel A
+  digitalWrite(8, LOW);   //Disengage the Brake for Channel A
+  analogWrite(11, currentSpeed);  //max is 255 -  implies 9 Volts -- need 12V at least supply to motor
+}
+
+delay(1000);
 
 
 //  forward @ full speed
@@ -87,14 +107,6 @@ Serial.println(arrOut[1]);
 //  Serial.print(currentB); //max is 2 Amps
 //  Serial.print("milliamps\n");
 
-
-
-
-
-
-
-
-  
 //  
 //  delay(3000);
 //  
@@ -153,3 +165,27 @@ void getSensorData(double arrIn[]){
   Serial.println(arrIn[4]);
 }
 
+double steeringSimConversion(double sim){
+  double val = 140;
+  if (sim > 0) {
+    val = sim*15/13.7 + 140;
+    if (val > 150) {
+      val =155;
+    }
+  } else {
+    val = 140 - sim*25/13.6;
+    if (val < 120) {
+      val = 115;
+    }
+  }
+
+  return val;
+}
+
+int motorSimCOnversion(double sim){
+  int val = sim*222/57;
+
+  if (val > 222) {val = 222;}
+  if (val < -222) {val = -222;}
+  return val;
+}
